@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleAddTweet } from '../actions/tweets'
+import { handleAddTweet } from '../actions/tweets';
+import { Navigate } from 'react-router-dom';
 
 class NewTweet extends Component {
     state = {
-        text: ''
+        text: '',
+        toHome: false
     }
 
     handleChange = (e) => {
@@ -24,14 +26,17 @@ class NewTweet extends Component {
         dispatch(handleAddTweet(text, id));
 
         this.setState({
-            text: ''
+            text: '',
+            toHome: id ? false : true
         })
     }
 
     render() {
-        const { text } = this.state;
+        const { text, toHome } = this.state;
 
-        //todo: redirect to the home view when submitted
+        if (toHome === true) {
+            return <Navigate to='/' />
+        }
 
         const tweetLeft = 280 - text.length;
 
